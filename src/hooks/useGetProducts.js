@@ -4,22 +4,18 @@ import { removeDuplicates, sliceIds } from '../utils/filters';
 import { getParamsRequest } from '../utils/request';
 
 /**
- * Хук получения данных с API
- * @param {string} page - Текущая страница.
- * @param {string} limit - Количество элементов на странице.
- * @returns {Object} Объект, содержащий список товаров, количество страниц и статус загрузки.
+ * Хук для получения списка товаров с учетом примененных фильтров и пагинации.
+ * @param {function} setQuantityPages - Функция для установки общего количества страниц.
+ * @param {number} page - Номер страницы для получения товаров.
+ * @param {number} limit - Лимит товаров на странице.
+ * @param {string} brand - Фильтр по бренду товара.
+ * @param {number} price - Фильтр по цене товара.
+ * @param {string} product - Фильтр по наименованию товара.
+ * @returns {Object} Объект, содержащий список товаров и статус загрузки.
  * @property {Object[]} products - Массив товаров.
- * @property {number} quantityPages - Общее количество страниц.
  * @property {boolean} pending - Статус загрузки.
  */
-export const useGetProducts = (
-  setQuantityPages,
-  page = 0,
-  limit = 50,
-  brand,
-  price,
-  product
-) => {
+export const useGetProducts = (setQuantityPages, page, limit, { brand, price, product }) => {
   const [products, setProducts] = useState({});
   const [pending, setPending] = useState(false);
   const [repeatRequest, setRepeatRequest] = useState(false);

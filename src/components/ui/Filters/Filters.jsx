@@ -1,75 +1,50 @@
 import { useState } from 'react';
 
 import styles from './Filters.module.css';
+import Input from '../Input/Input';
 
+const initFilters = { brand: null, price: null, product: null };
+
+/**
+ * Компонент для фильтрации товаров.
+ * Запрос на получение фильтрованных товаров происходит после нажатия кнопки.
+ * @param {Object} props - Свойства компонента.
+ * @param {function} props.setFilter - Функция для установки фильтров.
+ * @param {function} props.setPage - Функция для установки текущей страницы пагинации.
+ * @returns {JSX.Element} Элемент компонента для фильтрации данных.
+ */
 function Filters({ setFilter, setPage }) {
-  const [brand, setBrand] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [product, setProductName] = useState(null);
+  const [filterLocal, setFilterLocal] = useState(initFilters);
 
-  const handleInput = (event, name) => {
-    let valueBrand = null;
-    let valuePrice = null;
-    let valueProductName = null;
-
-    switch (name) {
-      case 'brand':
-        valueBrand = event.target.value !== '' ? event.target.value : null;
-        valuePrice = null;
-        valueProductName = null;
-        break;
-      case 'price':
-        valueBrand = null;
-        valuePrice = +event.target.value !== 0 ? +event.target.value : null;
-        valueProductName = null;
-        break;
-      case 'product':
-        valueBrand = null;
-        valuePrice = null;
-        valueProductName = event.target.value !== '' ? event.target.value : null;
-        break;
-    }
-
-    setBrand(valueBrand);
-    setPrice(valuePrice);
-    setProductName(valueProductName);
-
-    // установка первой страницы для пагинации
-    setPage(1);
-  };
   return (
     <div className={styles.filters}>
-      <input
-        className={styles.input}
-        onChange={(event) => handleInput(event, 'brand')}
+      <Input
+        value={filterLocal.brand}
+        property={'brand'}
         type={'text'}
-        value={brand || ''}
-        placeholder="brand"
+        handleInput={setFilterLocal}
       />
-
-      <input
-        className={styles.input}
-        onChange={(event) => handleInput(event, 'price')}
+      <Input
+        value={filterLocal.price}
+        property={'price'}
         type={'number'}
-        value={price || ''}
-        placeholder="price"
+        handleInput={setFilterLocal}
       />
-
-      <input
-        className={styles.input}
-        onChange={(event) => handleInput(event, 'product')}
+      <Input
+        value={filterLocal.product}
+        property={'product'}
         type={'text'}
-        value={product || ''}
-        placeholder="product"
+        handleInput={setFilterLocal}
       />
 
       <button
         className={styles.button}
         onClick={() => {
-          setFilter({ brand, price, product });
-          setProductName(null);
-          setBrand(null);
-          setPrice(null);
+          setFilter(filterLocal);
+          setFilterLocal(initFilters);
+
+          // установка первой страницы для пагинации
+          setPage(1);
         }}
       >
         Применить

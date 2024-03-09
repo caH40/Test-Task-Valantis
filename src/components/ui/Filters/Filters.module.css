@@ -4,14 +4,6 @@
   flex-wrap: wrap;
   margin-bottom: 15px;
 }
-.input {
-  padding: 0.35rem 0.8rem;
-  border: 1px solid green;
-  border-radius: 0.5rem;
-}
-.input:focus {
-  outline: 2px solid rgb(0, 179, 0);
-}
 .button {
   text-transform: uppercase;
   padding: 0.35rem 0.8rem;

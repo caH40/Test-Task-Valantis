@@ -4,7 +4,10 @@ import { getProducts } from '../api/rest/root';
 import { removeDuplicates } from '../utils/filters';
 
 /**
- * Получение общего количества товаров для пагинации без применяемых фильтров
+ * Получение общего количества товаров для пагинации без применяемых фильтров.
+ * @param {function} setQuantityPages - Функция для установки общего количества страниц.
+ * @param {number} limit - Лимит товаров на странице.
+ * @param {Object} filter - Фильтры для запроса товаров.
  */
 export const useGetQuantityPages = (setQuantityPages, limit, filter) => {
   // запрос общего количества товаров для пагинации

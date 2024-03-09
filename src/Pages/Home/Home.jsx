@@ -17,14 +17,7 @@ function Home() {
   const [page, setPage] = useState(1);
 
   useGetQuantityPages(setQuantityPages, limit, filter);
-  const { products, pending } = useGetProducts(
-    setQuantityPages,
-    page,
-    limit,
-    filter.brand,
-    filter.price,
-    filter.product
-  );
+  const { products, pending } = useGetProducts(setQuantityPages, page, limit, filter);
 
   return (
     <main className={styles.wrapper}>
