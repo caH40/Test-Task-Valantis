@@ -1,24 +1,18 @@
 /**
- * Создание параметров запроса в зависимости от входных данных
+ * Формирование параметров запроса в зависимости от наличия фильтров.
+ * @param {number} offset - Смещение для выборки данных.
+ * @param {number} limit - Лимит выборки данных.
+ * @param {Object} filter - Объект с фильтрами.
+ * @returns {Object} Параметры запроса.
  */
-export const getParamsRequest = (offset, limit, brand, price, productName) => {
-  if (productName) {
-    return {
-      action: 'filter',
-      params: { product: productName },
-    };
-  }
-  if (brand) {
-    return {
-      action: 'filter',
-      params: { brand },
-    };
-  }
-  if (price) {
-    return {
-      action: 'filter',
-      params: { price },
-    };
+export const getParamsRequest = (offset, limit, filter) => {
+  for (const value of Object.entries(filter)) {
+    if (value[1]) {
+      return {
+        action: 'filter',
+        params: Object.fromEntries([value]),
+      };
+    }
   }
 
   return {

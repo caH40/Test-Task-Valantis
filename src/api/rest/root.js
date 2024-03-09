@@ -3,7 +3,7 @@ import { getAuthHeader } from '../headers/auth';
 import createRequest from '../request';
 
 /**
- * POST запрос по адресу "/"
+ * POST запрос по адресу "/".
  */
 export const getProducts = async (data) => {
   // url запроса

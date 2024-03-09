@@ -30,7 +30,7 @@ export const useGetProducts = (setQuantityPages, page, limit, { brand, price, pr
         setPending(true);
 
         // создание параметров для запроса
-        const paramsRequest = getParamsRequest(offset, limit, brand, price, product);
+        const paramsRequest = getParamsRequest(offset, limit, { brand, price, product });
 
         // получение упорядоченного списка идентификаторов товаров
         const idsFormApi = await getProducts(paramsRequest);
