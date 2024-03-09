@@ -12,29 +12,13 @@ import { getParamsRequest } from '../utils/request';
  * @property {number} quantityPages - Общее количество страниц.
  * @property {boolean} pending - Статус загрузки.
  */
-export const useGetProducts = (page = 0, limit = 50, brand, price, productName) => {
+export const useGetProducts = (page = 0, limit = 50, brand, price, product) => {
   const [products, setProducts] = useState({});
   const [quantityPages, setQuantityPages] = useState(0);
   const [pending, setPending] = useState(false);
   const [repeatRequest, setRepeatRequest] = useState(false);
 
   const offset = (page - 1) * limit;
-
-  // запрос общего количества товаров для пагинации
-  useEffect(() => {
-    async function fetchData() {
-      // получение упорядоченного списка идентификаторов товаров
-      const idsFormApi = await getProducts({
-        action: 'get_ids',
-      });
-
-      // получение уникальных id товаров
-      const idsUnique = removeDuplicates(idsFormApi.result);
-
-      setQuantityPages(Math.ceil(idsUnique.length / limit));
-    }
-    fetchData();
-  }, [limit]);
 
   // запрос получения товаров
   useEffect(() => {
@@ -44,18 +28,18 @@ export const useGetProducts = (page = 0, limit = 50, brand, price, productName) 
         setPending(true);
 
         // создание параметров для запроса
-        const paramsRequest = getParamsRequest(offset, limit, brand, price, productName);
+        const paramsRequest = getParamsRequest(offset, limit, brand, price, product);
 
         // получение упорядоченного списка идентификаторов товаров
         const idsFormApi = await getProducts(paramsRequest);
 
         // изменение общего количества страниц пагинации при включенных фильтрах
-        if (brand || price || productName) {
+        if (brand || price || product) {
           setQuantityPages(Math.ceil(idsFormApi.result.length / limit));
         }
 
         // формирование необходимого количества id продуктов
-        const ids = sliceIds(idsFormApi.result, offset, limit, brand, price, productName);
+        const ids = sliceIds(idsFormApi.result, offset, limit, brand, price, product);
 
         // получение списка товаров
         const productsFormApi = await getProducts({
@@ -84,7 +68,7 @@ export const useGetProducts = (page = 0, limit = 50, brand, price, productName) 
       }
     }
     fetchData();
-  }, [offset, page, limit, repeatRequest, brand, price, productName]);
+  }, [offset, page, limit, repeatRequest, brand, price, product]);
 
   return { products, quantityPages, pending };
 };

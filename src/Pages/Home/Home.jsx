@@ -6,20 +6,22 @@ import Pagination from '../../components/ui/Pagination/Pagination';
 import styles from './Home.module.css';
 import Table from '../../components/Table/Table';
 import Filters from '../../components/ui/Filters/Filters';
+import { useGetQuantityPages } from '../../hooks/useGetQuantityPages';
 
-const initFilters = { brand: null, price: null, productName: null };
+const initFilters = { brand: null, price: null, product: null };
 const limit = 50;
 
 function Home() {
   const [filter, setFilter] = useState(initFilters);
 
   const [page, setPage] = useState(1);
-  const { products, quantityPages, pending } = useGetProducts(
+  const { quantityPages } = useGetQuantityPages(limit, filter);
+  const { products, pending } = useGetProducts(
     page,
     limit,
     filter.brand,
     filter.price,
-    filter.productName
+    filter.product
   );
 
   return (
