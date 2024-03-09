@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { getProducts } from '../api/rest/root';
 import { removeDuplicates } from '../utils/filters';
 
-export const useGetQuantityPages = (limit, filter) => {
-  const [quantityPages, setQuantityPages] = useState(0);
-
+/**
+ * Получение общего количества товаров для пагинации без применяемых фильтров
+ */
+export const useGetQuantityPages = (setQuantityPages, limit, filter) => {
   // запрос общего количества товаров для пагинации
   useEffect(() => {
     if (filter.brand || filter.price || filter.product) {
@@ -13,18 +14,20 @@ export const useGetQuantityPages = (limit, filter) => {
     }
 
     async function fetchData() {
-      // получение упорядоченного списка идентификаторов товаров
-      const idsFormApi = await getProducts({
-        action: 'get_ids',
-      });
+      try {
+        // получение упорядоченного списка идентификаторов товаров
+        const idsFormApi = await getProducts({
+          action: 'get_ids',
+        });
 
-      // получение уникальных id товаров
-      const idsUnique = removeDuplicates(idsFormApi.result);
+        // получение уникальных id товаров
+        const idsUnique = removeDuplicates(idsFormApi.result);
 
-      setQuantityPages(Math.ceil(idsUnique.length / limit));
+        setQuantityPages(Math.ceil(idsUnique.length / limit));
+      } catch (error) {
+        console.error(error.message); // eslint-disable-line
+      }
     }
     fetchData();
-  }, [limit, filter]);
-
-  return { quantityPages };
+  }, [limit, filter, setQuantityPages]);
 };

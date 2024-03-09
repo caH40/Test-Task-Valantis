@@ -12,9 +12,15 @@ import { getParamsRequest } from '../utils/request';
  * @property {number} quantityPages - Общее количество страниц.
  * @property {boolean} pending - Статус загрузки.
  */
-export const useGetProducts = (page = 0, limit = 50, brand, price, product) => {
+export const useGetProducts = (
+  setQuantityPages,
+  page = 0,
+  limit = 50,
+  brand,
+  price,
+  product
+) => {
   const [products, setProducts] = useState({});
-  const [quantityPages, setQuantityPages] = useState(0);
   const [pending, setPending] = useState(false);
   const [repeatRequest, setRepeatRequest] = useState(false);
 
@@ -68,7 +74,7 @@ export const useGetProducts = (page = 0, limit = 50, brand, price, product) => {
       }
     }
     fetchData();
-  }, [offset, page, limit, repeatRequest, brand, price, product]);
+  }, [setQuantityPages, offset, page, limit, repeatRequest, brand, price, product]);
 
-  return { products, quantityPages, pending };
+  return { products, pending };
 };

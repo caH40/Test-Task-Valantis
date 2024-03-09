@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import styles from './Filters.module.css';
 
-function Filters({ setFilter }) {
+function Filters({ setFilter, setPage }) {
   const [brand, setBrand] = useState(null);
   const [price, setPrice] = useState(null);
   const [product, setProductName] = useState(null);
@@ -33,6 +33,9 @@ function Filters({ setFilter }) {
     setBrand(valueBrand);
     setPrice(valuePrice);
     setProductName(valueProductName);
+
+    // установка первой страницы для пагинации
+    setPage(1);
   };
   return (
     <div className={styles.filters}>

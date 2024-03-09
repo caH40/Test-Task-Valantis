@@ -13,10 +13,12 @@ const limit = 50;
 
 function Home() {
   const [filter, setFilter] = useState(initFilters);
-
+  const [quantityPages, setQuantityPages] = useState(0);
   const [page, setPage] = useState(1);
-  const { quantityPages } = useGetQuantityPages(limit, filter);
+
+  useGetQuantityPages(setQuantityPages, limit, filter);
   const { products, pending } = useGetProducts(
+    setQuantityPages,
     page,
     limit,
     filter.brand,
@@ -26,7 +28,7 @@ function Home() {
 
   return (
     <main className={styles.wrapper}>
-      <Filters filter={filter} setFilter={setFilter} />
+      <Filters setFilter={setFilter} setPage={setPage} />
       <section className={styles.wrapper__table}>
         <Table products={products} pending={pending} />
       </section>
