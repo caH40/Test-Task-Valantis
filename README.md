@@ -5,4 +5,4 @@
 
 ### Реализация:  
 [Ссылка на github](https://github.com/caH40/Test-Task-Valantis)  
-[Страница](https://www.ru)
+[Страница](https://cah40.github.io/Test-Task-Valantis/)
