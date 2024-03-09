@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/rest/root';
-import { removeDuplicates } from '../utils/filters';
+import { removeDuplicates, sliceIds } from '../utils/filters';
+import { getParamsRequest } from '../utils/request';
 
 /**
  * Хук получения данных с API
@@ -11,7 +12,7 @@ import { removeDuplicates } from '../utils/filters';
  * @property {number} quantityPages - Общее количество страниц.
  * @property {boolean} pending - Статус загрузки.
  */
-export const useGetProducts = (page = 0, limit = 50) => {
+export const useGetProducts = (page = 0, limit = 50, brand, price, productName) => {
   const [products, setProducts] = useState({});
   const [quantityPages, setQuantityPages] = useState(0);
   const [pending, setPending] = useState(false);
@@ -42,16 +43,24 @@ export const useGetProducts = (page = 0, limit = 50) => {
         // включение статуса загрузки
         setPending(true);
 
+        // создание параметров для запроса
+        const paramsRequest = getParamsRequest(offset, limit, brand, price, productName);
+
         // получение упорядоченного списка идентификаторов товаров
-        const idsFormApi = await getProducts({
-          action: 'get_ids',
-          params: { offset, limit },
-        });
+        const idsFormApi = await getProducts(paramsRequest);
+
+        // изменение общего количества страниц пагинации при включенных фильтрах
+        if (brand || price || productName) {
+          setQuantityPages(Math.ceil(idsFormApi.result.length / limit));
+        }
+
+        // формирование необходимого количества id продуктов
+        const ids = sliceIds(idsFormApi.result, offset, limit, brand, price, productName);
 
         // получение списка товаров
         const productsFormApi = await getProducts({
           action: 'get_items',
-          params: { ids: idsFormApi.result },
+          params: { ids },
         });
 
         // получение товаров с уникальными id
@@ -69,11 +78,13 @@ export const useGetProducts = (page = 0, limit = 50) => {
         setPending(false);
       } catch (error) {
         console.error(error.message); // eslint-disable-line
+
+        // повторный запрос при получении ошибки
         setRepeatRequest((prev) => !prev);
       }
     }
     fetchData();
-  }, [offset, page, limit, repeatRequest]);
+  }, [offset, page, limit, repeatRequest, brand, price, productName]);
 
   return { products, quantityPages, pending };
 };

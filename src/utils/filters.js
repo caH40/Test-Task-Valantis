@@ -17,3 +17,16 @@ export const removeDuplicates = (results, property) => {
 
   return [...uniqueIds.values()];
 };
+
+/**
+ * Формирование необходимого количества id продуктов в массиве
+ */
+export const sliceIds = (ids, offset, limit, brand, price, productName) => {
+  // если есть фильтрация, то необходимо выделять необходимые товары в соответствии с пагинацией.
+  if (brand || price || productName) {
+    return ids.slice(offset, limit + offset);
+  }
+
+  // для других запросов пагинация осуществляется на сервере
+  return ids;
+};
