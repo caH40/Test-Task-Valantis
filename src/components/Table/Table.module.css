@@ -1,0 +1,42 @@
+.table {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  font-size: 1.2rem;
+}
+.table thead {
+  text-align: left;
+  display: table-header-group;
+  vertical-align: middle;
+  background-color: rgb(0, 128, 0);
+}
+.table tr {
+  background-color: rgba(0, 128, 0, 0.2);
+}
+.table th,
+td {
+  padding: 0.5rem 1rem;
+  vertical-align: middle;
+}
+.td__nowrap {
+  white-space: nowrap;
+}
+
+.table tr:nth-child(odd) {
+  background-color: rgba(0, 128, 0, 0.05);
+}
+.blur {
+  filter: blur(2px);
+}
+
+@media screen and (max-width: 576px) {
+  .table {
+    font-size: 0.9rem;
+  }
+  .table th,
+  td {
+    padding: 0.5rem 0.2rem;
+  }
+}

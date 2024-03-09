@@ -1,0 +1,35 @@
+.navigation {
+  margin-top: 10px;
+  display: block;
+}
+.list {
+  display: flex;
+  gap: 0 3px;
+  justify-content: center;
+  align-items: center;
+}
+.item {
+  flex: 0 0 28px;
+  border: 1px solid green;
+  border-radius: 3px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  padding: 4px 2px;
+  cursor: pointer;
+  transition: ease-in-out 0.4s;
+  user-select: none;
+}
+
+.item:hover {
+  background-color: green;
+  transition: ease-in-out 0.4s;
+}
+.item:active {
+  background-color: greenyellow;
+  transition: ease-in-out 0.4s;
+}
+.active {
+  background-color: green;
+}
