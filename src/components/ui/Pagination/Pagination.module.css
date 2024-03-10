@@ -22,14 +22,23 @@
   user-select: none;
 }
 
-.item:hover {
-  background-color: green;
-  transition: ease-in-out 0.4s;
-}
 .item:active {
   background-color: greenyellow;
   transition: ease-in-out 0.4s;
 }
 .active {
   background-color: green;
+}
+
+@media (hover: hover) {
+  .item:hover {
+    background-color: green;
+    transition: ease-in-out 0.4s;
+  }
+}
+@media (hover: none) {
+  .item:active {
+    background-color: green;
+    transition: ease-in-out 0.4s;
+  }
 }
